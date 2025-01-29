@@ -1,0 +1,117 @@
+openapi: 3.0.0
+info:
+  title: Bikes API
+  description: API for managing bikes
+  version: 1.0.0
+servers:
+  - url: http://localhost:3000
+    description: Local development server
+  - url: https://vercel-serverless-jutc2xci5-florstrds-projects.vercel.app/api/bikes
+    description: Vercel deployed server
+paths:
+  /bikes:
+    get:
+      summary: Get all bikes
+      description: Retrieve a list of all available bikes
+      responses:
+        '200':
+          description: A list of bikes
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    brand:
+                      type: string
+                      example: "Trek"
+                    model:
+                      type: string
+                      example: "Mountain Bike"
+                    price:
+                      type: number
+                      format: float
+                      example: 599.99
+    post:
+      summary: Add a new bike
+      description: Create a new bike entry
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                brand:
+                  type: string
+                  example: "Giant"
+                model:
+                  type: string
+                  example: "Road Bike"
+                price:
+                  type: number
+                  format: float
+                  example: 899.99
+      responses:
+        '201':
+          description: Bike created successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  brand:
+                    type: string
+                    example: "Giant"
+                  model:
+                    type: string
+                    example: "Road Bike"
+                  price:
+                    type: number
+                    format: float
+                    example: 899.99
+  /bikes/{id}:
+    get:
+      summary: Get a bike by ID
+      description: Retrieve a specific bike by its ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Bike details
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  brand:
+                    type: string
+                    example: "Trek"
+                  model:
+                    type: string
+                    example: "Mountain Bike"
+                  price:
+                    type: number
+                    format: float
+                    example: 599.99
+        '404':
+          description: Bike not found
+    delete:
+      summary: Delete a bike
+      description: Remove a bike by its ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Bike deleted successfully
+        '404':
+          description: Bike not found
